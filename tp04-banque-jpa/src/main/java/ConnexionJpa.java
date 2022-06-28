@@ -45,13 +45,40 @@ public class ConnexionJpa {
         compte1.getClients().add(clientAvec2Compte);
         compte2.getClients().add(clientAvec2Compte);
 
+        List<Client> clientsAssuranceEtLivreta = new ArrayList<>();
+        clientsAssuranceEtLivreta.add(clientAvec2Compte);
 
+        List<Operation> operationsAssuranceEtLivreta = new ArrayList<>();
+
+
+
+        AssuranceVie assuranceVie = new AssuranceVie("assuranceVie1" , 100d,clientsAssuranceEtLivreta,  operationsAssuranceEtLivreta, LocalDate.now().plusDays(5) , 2.1d);
+
+
+        LivretA livretA = new LivretA("livretA1" , 100d,clientsAssuranceEtLivreta,  operationsAssuranceEtLivreta , 2.0d);
+
+        clientAvec2Compte.getComptes().add(assuranceVie);
+        clientAvec2Compte.getComptes().add(livretA);
+
+        Operation operation = new Operation(LocalDate.now() , 100d , "why not 1");
+
+        Virement virement = new Virement(LocalDate.now() , 100d , "why not 1" , "waseem");
+
+        compte1.getOperations().add(operation);
+        compte1.getOperations().add(virement);
+
+        operation.setCompte(compte1);
+        virement.setCompte(compte1);
 
         em.persist(client1);
         em.persist(client2);
         em.persist(banque);
         em.persist(compte1);
         em.persist(compte2);
+        em.persist(assuranceVie);
+        em.persist(operation);
+        em.persist(virement);
+        em.persist(livretA);
         em.persist(clientAvec2Compte);
 
 
@@ -61,6 +88,12 @@ public class ConnexionJpa {
 
         for (Compte compte : clientAvec2Compte.getComptes()) {
             System.out.println(compte.getClients());
+        }
+
+        System.out.println("####################");
+
+        for (Operation compte1Operation : compte1.getOperations()) {
+            System.out.println(compte1Operation.toString());
         }
 
     }
