@@ -1,9 +1,8 @@
 package fr.diginamic;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name="livre")
@@ -11,6 +10,8 @@ public class Livre {
 
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "seq")
+    @GenericGenerator(name = "seq", strategy = "increment")
     private Integer ID;
 
     @Column(name = "Titre", length = 30, nullable = false)

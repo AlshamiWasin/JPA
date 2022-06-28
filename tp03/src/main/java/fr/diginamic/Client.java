@@ -1,21 +1,31 @@
 package fr.diginamic;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="client")
 public class Client {
 
+
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "seq")
+    @GenericGenerator(name = "seq", strategy = "increment")
     private Integer ID;
 
     @Column(name = "NOM", length = 30, nullable = false)
     private String nom;
     @Column(name = "PRENOM", length = 30, nullable = false)
     private String prenom;
+
+    @Column
+    @OneToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST} , fetch = FetchType.EAGER)
+    private Set<Emprunt> emprunts;
+
+
 
     public Client() {
     }
@@ -51,6 +61,13 @@ public class Client {
         this.prenom = prenom;
     }
 
+    public Set<Emprunt> getEmprunts() {
+        return emprunts;
+    }
+
+    public void setEmprunts(Set<Emprunt> emprunts) {
+        this.emprunts = emprunts;
+    }
 
     @Override
     public String toString() {

@@ -1,37 +1,59 @@
 package fr.diginamic;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="emprunt")
 public class Emprunt {
-
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "seq")
+    @GenericGenerator(name = "seq", strategy = "increment")
     private Integer ID;
-
-    @Column(name = "DATE8DEBUT", nullable = false)
-    private Date dateDeubt;
+    @Column(name = "DATE_DEBUT", nullable = false)
+    private LocalDate dateDeubt;
     @Column(name = "DELAI", length = 10, nullable = false)
     private Integer delai;
     @Column(name = "DATE_FIN", nullable = false)
-    private Date dateFin;
-    @Column(name = "ID_CLIENT",length = 10, nullable = false)
-    private Integer idClient;
+    private LocalDate dateFin;
+    @ManyToOne
+    @JoinColumn(name = "ID_CLIENT")
+    private Client client;
+
+    @ManyToMany
+    @JoinTable(name = "COMPO",joinColumns = @JoinColumn(name = "ID_EMP", referencedColumnName="ID"),inverseJoinColumns= @JoinColumn(name="ID_LIV", referencedColumnName = "ID"))
+    private List<Livre> livres;
+
 
     public Emprunt() {
     }
 
+    public Client getClient() {
+        return client;
+    }
 
-    public Emprunt(Integer ID, Date dateDeubt, Integer delai, Date dateFin, Integer idClient) {
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public List<Livre> getLivres() {
+        return livres;
+    }
+
+    public void setLivres(List<Livre> livres) {
+        this.livres = livres;
+    }
+
+    public Emprunt(Integer ID, LocalDate dateDeubt, Integer delai, LocalDate dateFin, Client idClient) {
         this.ID = ID;
         this.dateDeubt = dateDeubt;
         this.delai = delai;
         this.dateFin = dateFin;
-        this.idClient = idClient;
+        this.client = idClient;
     }
 
 
@@ -43,11 +65,11 @@ public class Emprunt {
         this.ID = ID;
     }
 
-    public Date getDateDeubt() {
+    public LocalDate getDateDeubt() {
         return dateDeubt;
     }
 
-    public void setDateDeubt(Date dateDeubt) {
+    public void setDateDeubt(LocalDate dateDeubt) {
         this.dateDeubt = dateDeubt;
     }
 
@@ -59,21 +81,23 @@ public class Emprunt {
         this.delai = delai;
     }
 
-    public Date getDateFin() {
+    public LocalDate getDateFin() {
         return dateFin;
     }
 
-    public void setDateFin(Date dateFin) {
+    public void setDateFin(LocalDate dateFin) {
         this.dateFin = dateFin;
     }
 
-    public Integer getIdClient() {
-        return idClient;
+    public Client getIdClient() {
+        return client;
     }
 
-    public void setIdClient(Integer idClient) {
-        this.idClient = idClient;
+    public void setIdClient(Client client) {
+        this.client = client;
     }
+
+
 
     @Override
     public String toString() {
@@ -82,7 +106,7 @@ public class Emprunt {
         sb.append(", dateDeubt=").append(dateDeubt);
         sb.append(", delai=").append(delai);
         sb.append(", dateFin=").append(dateFin);
-        sb.append(", idClient=").append(idClient);
+        sb.append(", idClient=").append(client);
         sb.append('}');
         return sb.toString();
     }

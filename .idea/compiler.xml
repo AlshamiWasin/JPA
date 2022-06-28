@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="tp02" />
         <module name="tp03" />
+        <module name="tp04-banque-jpa" />
         <module name="tp01" />
       </profile>
     </annotationProcessing>
