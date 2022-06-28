@@ -10,7 +10,11 @@
         <module name="tp03" />
         <module name="tp04-banque-jpa" />
         <module name="tp01" />
+        <module name="tp07-traitement-fichier" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="tp07" target="18" />
+    </bytecodeTargetLevel>
   </component>
 </project>
