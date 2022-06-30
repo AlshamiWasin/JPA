@@ -33,7 +33,11 @@ public class ProduitManager {
         }
 
         List<Allergene> allergeneList = new ArrayList<>();
+
+
+
         String[] allergenes =  line[28].split(",");
+
         for (String allergeneFromList : allergenes) {
             if (allergenes[0] != ""){
                 Allergene allergene = new Allergene(allergenes[0]);
@@ -60,6 +64,57 @@ public class ProduitManager {
 
 
     public void save(Produit produit){
+
+        for (int i = 0; i < produit.getAdditifs().size(); i++) {
+
+            Additif additifToLookFor =impl.findAdditif(produit.getAdditifs().get(i));
+            if(additifToLookFor == null){
+                impl.createAdditif(produit.getAdditifs().get(i));
+            }else {
+                produit.getAdditifs().add(additifToLookFor);
+                produit.getAdditifs().remove(produit.getAdditifs().get(i));
+            }
+        }
+
+        for (int i = 0; i <produit.getIngredients().size() ; i++) {
+            Ingredient ingredientToLookFor =impl.findIngredient(produit.getIngredients().get(i));
+            if(ingredientToLookFor == null){
+                impl.createIngredient(produit.getIngredients().get(i));
+            }else {
+                produit.getIngredients().add(ingredientToLookFor);
+                produit.getIngredients().remove(produit.getIngredients().get(i));
+            }
+        }
+
+        for (int i = 0; i < produit.getAllergenes().size(); i++) {
+
+            Allergene allergeneToLookFor =impl.findAllergene(produit.getAllergenes().get(i));
+            if(allergeneToLookFor == null){
+                impl.createAllergene(produit.getAllergenes().get(i));
+            }else {
+                produit.getAllergenes().remove(produit.getAllergenes().get(i));
+                produit.getAllergenes().add(allergeneToLookFor);
+
+            }
+
+        }
+
+
+        if(impl.findCategorie(produit.getCategorie()) == null){
+            impl.createCategorie(produit.getCategorie());
+        }else {
+            produit.setCategorie(impl.findCategorie(produit.getCategorie()));
+        }
+
+
+        if(impl.findMarque(produit.getMarque()) == null){
+            impl.createMarque(produit.getMarque());
+        }else {
+
+            produit.setMarque(impl.findMarque(produit.getMarque()));
+        }
+
+        impl.createProduit(produit);
 
     }
 
