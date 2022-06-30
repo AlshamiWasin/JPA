@@ -3,6 +3,7 @@ package BO;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,8 +18,8 @@ public class Marque {
     private String nom;
 
 
-    @OneToMany()
-    private List<Produit> produit;
+    @OneToMany(mappedBy = "marque")
+    private List<Produit> produits = new ArrayList<>();
 
     public Marque() {
     }
@@ -44,12 +45,12 @@ public class Marque {
         this.nom = nom;
     }
 
-    public List<Produit> getProduit() {
-        return produit;
+    public List<Produit> getProduits() {
+        return produits;
     }
 
-    public void setProduit(List<Produit> produit) {
-        this.produit = produit;
+    public void setProduits(List<Produit> produit) {
+        this.produits = produit;
     }
 
     @Override

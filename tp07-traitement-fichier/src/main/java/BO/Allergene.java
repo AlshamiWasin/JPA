@@ -3,6 +3,7 @@ package BO;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -10,14 +11,14 @@ public class Allergene {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "seq")
-    @GenericGenerator(name = "seq", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "seq1")
+    @GenericGenerator(name = "seq1", strategy = "increment")
     private Integer ID;
     @Column
     private String nom;
 
     @ManyToMany(mappedBy="allergenes")
-    private List<Produit> produit;
+    private List<Produit> produit = new ArrayList<>();
 
     public Allergene() {
     }

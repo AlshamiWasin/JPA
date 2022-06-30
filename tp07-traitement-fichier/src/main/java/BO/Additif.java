@@ -3,6 +3,7 @@ package BO;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 @Entity
 public class Additif {
@@ -13,7 +14,7 @@ public class Additif {
     private String nom;
 
     @ManyToMany(mappedBy="additifs")
-    private List<Produit> produit;
+    private List<Produit> produit = new ArrayList<>();
 
     public Additif() {
     }

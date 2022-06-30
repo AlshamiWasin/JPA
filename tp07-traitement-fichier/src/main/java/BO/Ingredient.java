@@ -3,14 +3,15 @@ package BO;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Ingredient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "seq")
-    @GenericGenerator(name = "seq", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "seq1")
+    @GenericGenerator(name = "seq1", strategy = "increment")
     private int ID;
     @Column(length = 1000)
     private String nom;
@@ -23,7 +24,7 @@ public class Ingredient {
     }
 
     @ManyToMany(mappedBy="ingredients")
-    private List<Produit> produit;
+    private List<Produit> produits = new ArrayList<>();
 
 
     public int getId() {
@@ -43,11 +44,11 @@ public class Ingredient {
     }
 
     public List<Produit> getProduit() {
-        return produit;
+        return produits;
     }
 
     public void setProduit(List<Produit> produit) {
-        this.produit = produit;
+        this.produits = produit;
     }
 
     @Override

@@ -17,23 +17,38 @@ public class ProduitDAO{
     }
 
     public void createProduit(Produit produit){
+        em.getTransaction().begin();
         em.persist(produit);
+        em.getTransaction().commit();
     }
-    public void createAllergene(Allergene allergene){
+    public Allergene createAllergene(Allergene allergene){
+        em.getTransaction().begin();
         em.persist(allergene);
+        em.getTransaction().commit();
+        return allergene;
     }
     public void createCategorie(Categorie categorie){
+        em.getTransaction().begin();
         em.persist(categorie);
+        em.getTransaction().commit();
     }
     public void createMarque(Marque Marque){
+        em.getTransaction().begin();
         em.persist(Marque);
+        em.getTransaction().commit();
     }
-    public void createAdditif(Additif additif){
+    public Additif createAdditif(Additif additif){
+        em.getTransaction().begin();
         em.persist(additif);
+        em.getTransaction().commit();
+        return additif;
     }
 
-    public void createIngredient(Ingredient ingredient){
+    public Ingredient createIngredient(Ingredient ingredient){
+        em.getTransaction().begin();
         em.persist(ingredient);
+        em.getTransaction().commit();
+        return ingredient;
     }
 
 
@@ -55,8 +70,6 @@ public class ProduitDAO{
     }
 
     public Allergene findAllergene(Allergene allergene){
-
-
 
         TypedQuery<Allergene> query = em.createQuery("SELECT a FROM Allergene a WHERE a.nom = :nom", Allergene.class);
         query.setParameter("nom", allergene.getNom());
@@ -85,8 +98,9 @@ public class ProduitDAO{
 
     public Ingredient findIngredient(Ingredient ingredient){
 
-        TypedQuery<Ingredient> query = em.createQuery("SELECT a FROM Ingredient a WHERE a.nom = :nom", Ingredient.class);
+        TypedQuery<Ingredient> query = em.createQuery("SELECT i FROM Ingredient i WHERE i.nom = :nom", Ingredient.class);
         query.setParameter("nom", ingredient.getNom());
+        System.out.println(ingredient.getNom());
         List<Ingredient>reqIngredient = query.getResultList();
 
         if (reqIngredient.isEmpty()){

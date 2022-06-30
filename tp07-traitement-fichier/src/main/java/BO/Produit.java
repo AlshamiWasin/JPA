@@ -3,6 +3,7 @@ package BO;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,8 +14,10 @@ public class Produit {
     @GenericGenerator(name = "seq", strategy = "increment")
     private Integer ID;
     @ManyToOne()
+    @JoinColumn(name="Categorie_ID")
     private Categorie categorie;
     @ManyToOne()
+    @JoinColumn(name="Marque_ID")
     private Marque marque;
 
     @Column
@@ -24,7 +27,7 @@ public class Produit {
 
     @ManyToMany()
     @JoinTable( name="Produit_Ingre",  joinColumns= @JoinColumn(name="id_Ingre", referencedColumnName= "ID"), inverseJoinColumns= @JoinColumn(name="id_Produit", referencedColumnName=  "ID"))
-    private List<Ingredient> ingredients;
+    private List<Ingredient> ingredients = new ArrayList<>();
     @Column
     private String energie100g;
     @Column
@@ -74,10 +77,10 @@ public class Produit {
 
     @ManyToMany()
     @JoinTable( name="produit_allergene",  joinColumns= @JoinColumn(name="PRODUIT_ID", referencedColumnName= "ID"), inverseJoinColumns= @JoinColumn(name="ALLERGENE_ID", referencedColumnName=  "ID"))
-    private List<Allergene> allergenes;
+    private List<Allergene> allergenes = new ArrayList<>();
     @ManyToMany()
     @JoinTable( name="produit_additifs",  joinColumns= @JoinColumn(name="PRODUIT_ID", referencedColumnName= "ID"), inverseJoinColumns= @JoinColumn(name="ADDITIF_ID", referencedColumnName=  "code"))
-    private List<Additif> additifs;
+    private List<Additif> additifs = new ArrayList<>();
 
     public Produit() {
     }

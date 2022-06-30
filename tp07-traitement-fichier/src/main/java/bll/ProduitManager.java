@@ -1,11 +1,12 @@
 package bll;
 
 import BO.*;
-import DAL.DAO;
 import DAL.ProduitDAO;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ProduitManager {
     private static volatile ProduitManager instance=null;
@@ -28,6 +29,7 @@ public class ProduitManager {
             String[] ingredient_info = s.split("-");
             if (ingredient_info[0] != ""){
                 Ingredient ingredient = new Ingredient(ingredient_info[0]);
+                System.out.println(ingredient);
                 ingredientList.add(ingredient);
             }
         }
@@ -65,39 +67,41 @@ public class ProduitManager {
 
     public void save(Produit produit){
 
-        for (int i = 0; i < produit.getAdditifs().size(); i++) {
-
-            Additif additifToLookFor =impl.findAdditif(produit.getAdditifs().get(i));
-            if(additifToLookFor == null){
-                impl.createAdditif(produit.getAdditifs().get(i));
-            }else {
-                produit.getAdditifs().add(additifToLookFor);
-                produit.getAdditifs().remove(produit.getAdditifs().get(i));
+        List<Additif> additifList = new ArrayList<>();
+        for (Additif additifFromCsv : produit.getAdditifs()) {
+            Additif additifFromDb = impl.findAdditif(additifFromCsv);
+            if (additifFromDb != null) {
+                additifList.add(additifFromDb);
+            } else {
+                additifList.add(impl.createAdditif(additifFromCsv));
             }
         }
+        produit.setAdditifs(additifList);
 
-        for (int i = 0; i <produit.getIngredients().size() ; i++) {
-            Ingredient ingredientToLookFor =impl.findIngredient(produit.getIngredients().get(i));
-            if(ingredientToLookFor == null){
-                impl.createIngredient(produit.getIngredients().get(i));
-            }else {
-                produit.getIngredients().add(ingredientToLookFor);
-                produit.getIngredients().remove(produit.getIngredients().get(i));
+
+        List<Ingredient> ingredientList = new ArrayList<>();
+        for (Ingredient ingredientFromCsv : produit.getIngredients()) {
+            Ingredient ingredientFromDb = impl.findIngredient(ingredientFromCsv);
+            if (ingredientFromDb != null) {
+                ingredientList.add(ingredientFromDb);
+            } else {
+                ingredientList.add(impl.createIngredient(ingredientFromCsv));
             }
         }
+        produit.setIngredients(ingredientList);
 
-        for (int i = 0; i < produit.getAllergenes().size(); i++) {
 
-            Allergene allergeneToLookFor =impl.findAllergene(produit.getAllergenes().get(i));
-            if(allergeneToLookFor == null){
-                impl.createAllergene(produit.getAllergenes().get(i));
-            }else {
-                produit.getAllergenes().remove(produit.getAllergenes().get(i));
-                produit.getAllergenes().add(allergeneToLookFor);
 
+        List<Allergene> allergeneList = new ArrayList<>();
+        for (Allergene allergeneFromCsv : produit.getAllergenes()) {
+            Allergene allergeneFromDb = impl.findAllergene(allergeneFromCsv);
+            if (allergeneFromDb != null) {
+                allergeneList.add(allergeneFromDb);
+            } else {
+                allergeneList.add(impl.createAllergene(allergeneFromCsv));
             }
-
         }
+        produit.setAllergenes(allergeneList);
 
 
         if(impl.findCategorie(produit.getCategorie()) == null){
@@ -105,14 +109,16 @@ public class ProduitManager {
         }else {
             produit.setCategorie(impl.findCategorie(produit.getCategorie()));
         }
+        produit.getCategorie().getProduits().add(produit);
 
 
         if(impl.findMarque(produit.getMarque()) == null){
             impl.createMarque(produit.getMarque());
         }else {
-
             produit.setMarque(impl.findMarque(produit.getMarque()));
         }
+
+        produit.getMarque().getProduits().add(produit);
 
         impl.createProduit(produit);
 

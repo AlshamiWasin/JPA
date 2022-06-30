@@ -21,9 +21,7 @@ public class IntegrationOpenFoodFacts {
 
         ProduitManager produitManager = new ProduitManager(new ProduitDAO(em));
 
-        String csvFile = "D:\\Mohammas wasin\\Documents\\diginamic\\cours\\JPA\\tp\\JPA\\tp07-traitement-fichier\\src\\main\\java\\DAL\\open-food-facts2.csv";
-
-        em.getTransaction().begin();
+        String csvFile = "D:\\Mohammas wasin\\Documents\\diginamic\\cours\\JPA\\tp\\JPA\\tp07-traitement-fichier\\src\\main\\java\\DAL\\open-food-facts.csv";
 
         try {
             File file = new File(csvFile);
@@ -57,10 +55,6 @@ public class IntegrationOpenFoodFacts {
         } catch(IOException ioe) {
             ioe.printStackTrace();
         }
-
-
-
-        em.getTransaction().commit();
     }
 
     public static EntityManager getEntityManager() {
