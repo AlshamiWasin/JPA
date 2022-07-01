@@ -9,7 +9,14 @@
         <option value="$PROJECT_DIR$/tp03/pom.xml" />
         <option value="$PROJECT_DIR$/tp04-banque-jpa/pom.xml" />
         <option value="$PROJECT_DIR$/tp07-traitement-fichier/pom.xml" />
+        <option value="$PROJECT_DIR$/tp06/pom.xml" />
+        <option value="$PROJECT_DIR$/tp-cycles/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/tp06/tp-cycles/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="18" project-jdk-type="JavaSDK">

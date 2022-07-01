@@ -6,11 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="tp07-traitement-fichier" />
         <module name="tp02" />
         <module name="tp03" />
         <module name="tp04-banque-jpa" />
         <module name="tp01" />
-        <module name="tp07-traitement-fichier" />
+        <module name="tp-cycles" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
